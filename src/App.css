@@ -1,0 +1,27 @@
+body {
+  background-color: #D0FAE5;
+}
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+button {
+  border: none;
+  background-color: #5AD4A8;
+  padding: 12px 18px;
+  border-radius: 20px;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+  padding: 30px;
+  background-color: #fff;
+  width: 75vw;
+  border-radius: 20px;
+  margin: 10vh 0 10vh 12.5vw;
+}

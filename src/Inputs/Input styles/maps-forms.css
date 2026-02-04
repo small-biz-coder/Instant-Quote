@@ -1,0 +1,116 @@
+.maps-cont {
+	width: 100%;
+}
+.maps-cont .input-cont {
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 40px;
+}
+.maps-cont h1 {
+	font-size: 1.8rem;
+	color: #0D542B;
+	text-align: center;
+}
+.maps-cont .tag-line {
+	font-size: 1.15rem;
+	text-align: center;
+}
+.input-form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 7px;
+	font-size: 1.3rem;
+	color: #000;
+}
+.input-form input, select {
+	height: 45px;
+	border-radius: 10px;
+	background-color: #F3F3F5;
+	padding: 0 10px;
+	border: none;
+	font-size: 1.2rem;
+	color: #000;
+}
+.input-form input {
+	width: 100%;
+}
+.input-form input:focus {
+	outline: none;
+}
+.maps-cont h2, p {
+	text-align: center;
+}
+.maps-cont p {
+	font-size: 1.15rem;
+}
+.maps-cont .edit-yard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 30px 0 30px 12.5%;
+	padding: 30px 15px;
+	border: 5px solid #D0FAE5;
+	border-radius: 20px;
+	width: 75%;
+}
+.maps-cont .edit-yard strong {
+	font-size: 1.2rem;
+	text-align: center;
+}
+.maps-cont .edit-yard span {
+	padding: 0 0 20px 0;
+}
+.maps-cont .button-cont {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+.maps-cont .input-form .x-button {
+	background-color: transparent;
+	position: absolute;
+	left: 93%;
+	padding: 0;
+	cursor: pointer;
+}
+.maps-cont .input-form .x-button span {
+	display: block;
+	background-color: #000;
+	width: 22px;
+	height: 4px;
+	border-radius: 5px;
+}
+.maps-cont .input-form .x-button .line-1 {
+	transform: rotate(-50deg);
+}
+.maps-cont .input-form .x-button .line-2 {
+	position: absolute;
+    top: 0;
+	transform: rotate(50deg);
+}
+  /*----------------------------------------------------------
+                            YardForm                       */
+#yard-form-cont {
+	width: 100%;
+}
+.yard-form-cont {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	row-gap: 20px;
+}
+  /*----------------------------------------------------------
+                            CustForm                       */
+#cust-form-cont {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	row-gap: 20px;
+}
+
+
+
+
+
+
+
