@@ -2,11 +2,24 @@ import { useState, useEffect, useRef } from 'react';
 import { APIProvider, Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import './Input styles/maps-forms.css';
 
-function MapContent({ address, onAreaCalculated }) {
+interface MapContentProps {
+  address: string;
+  onAreaCalculated: (area: number) => void;
+}
+interface MapsInnerProps {
+  onInputChange: (value: string) => void;
+  onFormOpen: (area: number) => void;
+}
+interface MapsProps {
+  onInputChange: (value: string) => void;
+  onFormOpen: (area: number) => void;
+}
+
+function MapContent({ address, onAreaCalculated }: MapContentProps): null {
   const map = useMap();
   const drawing = useMapsLibrary('drawing');
-  const [drawingManager, setDrawingManager] = useState(null);
-  const [polygons, setPolygons] = useState([]);
+  const [_drawingManager, setDrawingManager] = useState<google.maps.drawing.DrawingManager | null>(null);
+  const [polygons, setPolygons] = useState<google.maps.Polygon[]>([]);
   
   useEffect(() => {
     if (address && map) {
@@ -64,7 +77,7 @@ function MapContent({ address, onAreaCalculated }) {
     setDrawingManager(newDrawingManager);
 
     // Listen for polygon completion
-    window.google.maps.event.addListener(newDrawingManager, 'polygoncomplete', (poly) => {
+    window.google.maps.event.addListener(newDrawingManager, 'polygoncomplete', (poly: google.maps.Polygon) => {
       // Add new polygon to array
       setPolygons(prevPolygons => [...prevPolygons, poly]);
       
@@ -99,11 +112,11 @@ function MapContent({ address, onAreaCalculated }) {
   return null;
 }
 
-function MapsInner({ onInputChange, onFormOpen }) {
-  const [userAddress, setUserAddress] = useState('');
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [yardArea, setYardArea] = useState(0);
-  const inputRef = useRef(null);
+function MapsInner({ onInputChange, onFormOpen }: MapsInnerProps): JSX.Element {
+  const [userAddress, setUserAddress] = useState<string>('');
+  const [selectedPlace, setSelectedPlace] = useState<google.maps.places.PlaceResult | null>(null);
+  const [yardArea, setYardArea] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
   const places = useMapsLibrary('places');
 
   useEffect(() => {
@@ -123,27 +136,27 @@ function MapsInner({ onInputChange, onFormOpen }) {
     });
   }, [places, onInputChange]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const newAddress = e.target.value;
     setUserAddress(newAddress);
     onInputChange(newAddress);
   };
 
-  const clearInput = () => {
+  const clearInput = (): void => {
     setUserAddress('');
     setSelectedPlace(null);
-    setYardArea(null);
+    setYardArea(0);
     onInputChange('');
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
 
-  const handleAreaCalculated = (area) => {
+  const handleAreaCalculated = (area: number): void => {
     setYardArea(area);
   };
 
-  const startForm = () => {
+  const startForm = (): void => {
   	if(yardArea > 0) {
   		onFormOpen(yardArea);
   	} else {
@@ -211,7 +224,7 @@ function MapsInner({ onInputChange, onFormOpen }) {
   );
 }
 
-function Maps({ onInputChange, onFormOpen }) {
+function Maps({ onInputChange, onFormOpen }: MapsProps): JSX.Element {
   return (
   	<div className="maps-cont">
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>

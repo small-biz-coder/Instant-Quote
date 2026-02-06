@@ -1,15 +1,25 @@
 import { useState } from 'react';
 import './Input styles/maps-forms.css';
 
-function CustForm({ custData }) {
-	const [custFormData, setCustFormData] = useState({
+interface CustFormData {
+	name: string;
+	email: string;
+	phone: string;
+}
+
+interface CustFormProps {
+	custData: (data: CustFormData) => void;
+}
+
+function CustForm({ custData }: CustFormProps) {
+	const [custFormData, setCustFormData] = useState<CustFormData>({
 		name: '',
 		email: '',
 		phone: ''
 	});
 
-    const handleSubmit = (e) => {
-    	e.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    	event.preventDefault();
     	custData(custFormData);
         //clear form
     	setCustFormData({
@@ -19,17 +29,18 @@ function CustForm({ custData }) {
     	});
     };
 
-    const handleChange = (e) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void  => {
+    	const { name, value } = event.target;
     	setCustFormData({
     		...custFormData, 
-    		[e.target.name]: e.target.value
+    		[name]: value
     	});
     };
 
 
 
 	return (
-		<div id="cust-form-cont">
+		<form id="cust-form-cont" onSubmit={handleSubmit}>
 			<label className="input-form">Full Name
 				<input name="name"
 					value={custFormData.name}
@@ -54,10 +65,10 @@ function CustForm({ custData }) {
 					placeholder="Enter your Phone Number"
 				/>
 			</label>
-			<button onClick={handleSubmit}>
+			<button type="submit">
 				Get My Estimate
 			</button>
-		</div>
+		</form>
 		);
 }
 

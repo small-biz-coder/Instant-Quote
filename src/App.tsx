@@ -3,42 +3,64 @@ import Maps from './Inputs/Maps';
 import YardForm from './Inputs/YardForm';
 import CustForm from './Inputs/CustForm';
 import Results from './Outputs/Results';
-import EmailForm from './Outputs/EmailForm';
 import './App.css'
 
-function App () {
-  const [mapValue, setMapValue] = useState('');
-  const [yardFormInput, setYardFormInput] = useState({});
-  const [showYardForm, setShowYardForm] = useState(false);
-  const [showMapAPI, setShowMapAPI] = useState(true);
-  const [showCustForm, setShowCustForm] = useState(false);
-  const [custFormInput, setCustformInput] = useState({});
-  const [showResultsPage, setShowResultsPage] = useState(false);
-  const [estimatePrice, setEstimatePrice] = useState(0);
-  const [yardData, setYardData] = useState(0)
+interface YardFormInput {
+  trees: string;
+  fence: string;
+  grassCondition: string;
+}
+interface CustFormInput {
+  name: string;
+  email: string;
+  phone: string;
+}
 
-  const handleInputFromMaps = (value) => {
+interface TreePricing {
+  [key: string]: number;
+}
+
+function App (): JSX.Element {
+  const [_mapValue, setMapValue] = useState<string>('');
+  const [yardFormInput, setYardFormInput] = useState<YardFormInput>({
+    trees: '',
+    fence: '',
+    grassCondition: ''
+  });
+  const [showYardForm, setShowYardForm] = useState<boolean>(false);
+  const [showMapAPI, setShowMapAPI] = useState<boolean>(true);
+  const [showCustForm, setShowCustForm] = useState<boolean>(false);
+  const [custFormInput, setCustFormInput] = useState<CustFormInput>({
+    name: '',
+    email: '',
+    phone:''
+  });
+  const [showResultsPage, setShowResultsPage] = useState<boolean>(false);
+  const [estimatePrice, setEstimatePrice] = useState<number>(0);
+  const [yardData, setYardData] = useState<number>(0)
+
+  const handleInputFromMaps = (value: string): void => {
     setMapValue(value);
   };
-  const handleYardFormInput = (data) => {
+  const handleYardFormInput = (data: YardFormInput): void => {
     setYardFormInput(data);
     setShowYardForm(false);
     setShowCustForm(true);
   };
 
-  const openCustomerInfo = (data) => {
+  const openCustomerInfo = (data: number): void => {
     setShowYardForm(true);
-    setShowMapAPI(null);
+    setShowMapAPI(false);
     setYardData(data);
   };
-  const handleCustFormInput = (data) => {
-    setCustformInput(data);
+  const handleCustFormInput = (data: CustFormInput): void => {
+    setCustFormInput(data);
     setShowCustForm(false);
     setShowResultsPage(true);
   };
 
   useEffect(() => {
-    const treePricing = {
+    const treePricing: TreePricing = {
     '0': 0,
     '1': 50,
     '2': 70,
@@ -49,13 +71,10 @@ function App () {
   
     const treePrice = treePricing[yardFormInput.trees] || 0;
     const fencePrice = yardFormInput.fence === 'yes' ? 75 : 0;
-    // const yardPrice = () => {
-    //   if (yardData )
-    // }
-    const total = treePrice + fencePrice +
-    (yardData > 2000 ? yardData * .50 : yardData * .75);
+    const yardPrice = yardData > 2000 ? yardData * 0.50 : yardData * 0.75;
+    const total = treePrice + fencePrice + yardPrice;
     setEstimatePrice(total);
-  }, [yardFormInput]);
+  }, [yardFormInput, yardData]);
 
   return (
     <div className="container">
@@ -80,7 +99,6 @@ function App () {
           estimatePrice={estimatePrice}
           yardData={yardData}
           custInfo={custFormInput}
-          onSendEmail={showResultsPage}
           />
         )}
     </div>

@@ -1,16 +1,26 @@
 import { useState } from 'react';
 import './Input styles/maps-forms.css';
 
+interface YardFormData {
+	trees: string;
+	fence: string;
+	grassCondition: string;
+}
 
-function YardForm ({ appData }) {
+interface YardFormProps {
+	appData: (data: YardFormData) => void;
+}
+
+
+function YardForm ({ appData }: YardFormProps) {
 	const [yardFormData, setYardFormData] = useState({
 		trees: '',
 		fence: '',
 		grassCondition: ''
 	});
 
-    const handleSubmit = (e) => {
-    	e.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    	event.preventDefault();
     	appData(yardFormData);
         //clear form
     	setYardFormData({
@@ -20,10 +30,11 @@ function YardForm ({ appData }) {
     	});
     };
 
-    const handleChange = (e) => {
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    	const { name, value } = event.target;
     	setYardFormData({
     		...yardFormData, 
-    		[e.target.name]: e.target.value
+    		[name]: value
     	});
     };
 
@@ -72,7 +83,7 @@ function YardForm ({ appData }) {
 					</select>
 				</label>
 				<button
-					value="Submit"
+					type="submit"
 				>
 					Final Step
 				</button>
