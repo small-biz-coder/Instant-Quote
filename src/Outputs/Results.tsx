@@ -49,7 +49,7 @@ function Results({ estimatePrice, yardData, custInfo }: ResultsProps) {
 
 	const sendEmail = async (message: EmailMessage): Promise<void> => {
 		try {
-			const response = await fetch(`${import.meta.env.VITE_API_URL_DEV}/api/send-email`, {
+			const response = await fetch(`${import.meta.env.VITE_API_URL_PROD}/api/send-email`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ message })
