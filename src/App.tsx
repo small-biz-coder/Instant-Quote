@@ -21,7 +21,7 @@ interface TreePricing {
 }
 
 function App (): JSX.Element {
-  const [_mapValue, setMapValue] = useState<string>('');
+  const [mapValue, setMapValue] = useState<string>('');
   const [yardFormInput, setYardFormInput] = useState<YardFormInput>({
     trees: '',
     fence: '',
@@ -99,6 +99,7 @@ function App (): JSX.Element {
           estimatePrice={estimatePrice}
           yardData={yardData}
           custInfo={custFormInput}
+          custAddress={mapValue}
           />
         )}
     </div>

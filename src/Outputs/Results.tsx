@@ -8,7 +8,10 @@ interface CustInfo {
 }
 
 interface EmailMessage {
+	name: string;
 	email: string;
+	phone: string;
+	address: string;
 	mowingPrice: number;
 	fertilizerPrice: number;
 }
@@ -17,15 +20,16 @@ interface ResultsProps {
 	estimatePrice: number;
 	yardData: number;
 	custInfo: CustInfo;
+	custAddress: string;
 }
 
 
-function Results({ estimatePrice, yardData, custInfo }: ResultsProps) {
+function Results({ estimatePrice, yardData, custInfo, custAddress }: ResultsProps) {
 
 	const [fertPrice, setFertPrice] = useState<number>(0);
 	const [mowingPrice, setMowingPrice] = useState<number>(0);
-    const [status, setStatus] = useState<string>('');
-    const [emailSent, setEmailSent] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('');
+  const [emailSent, setEmailSent] = useState<boolean>(false);
 
 	useEffect(() => {
 		const mowing = estimatePrice * 4;
@@ -37,7 +41,10 @@ function Results({ estimatePrice, yardData, custInfo }: ResultsProps) {
 		// Send email only once when component mounts and we have all data
 		if (!emailSent && custInfo.email && estimatePrice && yardData) {
 			const message: EmailMessage = {
+				name: custInfo.name,
 				email: custInfo.email,
+				phone: custInfo.phone,
+				address: custAddress,
 				mowingPrice: mowing,
 				fertilizerPrice: fert
 			};
@@ -45,7 +52,7 @@ function Results({ estimatePrice, yardData, custInfo }: ResultsProps) {
 			sendEmail(message);
 			setEmailSent(true); // Prevent sending again
 		}
-	}, [estimatePrice, yardData, custInfo.email, emailSent]); 
+	}, [estimatePrice, yardData, custInfo.email, emailSent, custAddress]); 
 
 	const sendEmail = async (message: EmailMessage): Promise<void> => {
 		try {
